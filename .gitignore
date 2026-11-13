@@ -1,0 +1,6 @@
+﻿node_modules/
+.deployer.json
+.env
+.netlify/
+cache/
+artifacts/

@@ -1,0 +1,29 @@
+{
+  "name": "lasavo-website",
+  "version": "1.0.0",
+  "description": "> **Yield pool savings for blockchain natives.** Your principal stays on-chain; your yield compounds automatically on **Monad** and **Coinbase Base**.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AasavR/lasavo-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AasavR/lasavo-website/issues"
+  },
+  "homepage": "https://github.com/AasavR/lasavo-website#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^7.0.0",
+    "dotenv": "^18.0.10",
+    "hardhat": "^3.22.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "ethers": "^6.17.0"
+  }
+}
