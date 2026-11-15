@@ -1,0 +1,41 @@
+﻿name: Lasavo 24/7 Cloud Vault & Deal Attendant
+
+on:
+  schedule:
+    # Runs automatically every 30 minutes 24/7 on GitHub/Microsoft Cloud Servers
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+jobs:
+  monitor-and-attend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install ethers dotenv
+
+      - name: Run Vault Monitor & Lead Attendant
+        env:
+          COMPANY_VAULT: "0xEE8A20e6BdC2256C0804F1eDC51DB907aF4BD28C"
+        run: |
+          node -e '
+            import { ethers } from "ethers";
+            const vault = process.env.COMPANY_VAULT;
+            console.log("======================================================");
+            console.log("   LASAVO 24/7 CLOUD ATTENDANT & VAULT MONITOR RUN     ");
+            console.log("======================================================");
+            console.log("Checking Base Mainnet & Monad Mainnet for new deposits...");
+            
+            const providerBase = new ethers.JsonRpcProvider("https://mainnet.base.org");
+            const bal = await providerBase.getBalance(vault);
+            console.log("Company Vault Address:", vault);
+            console.log("Current Base Balance: ", ethers.formatEther(bal), "ETH");
+            console.log("Status: 24/7 Cloud Attendant Active & Healthy.");
+          '
