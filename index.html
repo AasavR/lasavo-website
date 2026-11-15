@@ -592,20 +592,68 @@
   <footer>
     <div class="wrap">
       <div class="footer-row">
-        <div style="display:flex;align-items:center;gap:0.5rem">
-          <div class="nav-logo" style="width:26px;height:26px;font-size:0.8rem">L</div>
-          <strong>Lasavo LLC</strong>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <div class="nav-logo" style="width:28px;height:28px;font-size:0.85rem">L</div>
+          <div>
+            <strong>Lasavo LLC</strong>
+            <span class="chip" style="margin-left:0.5rem;font-size:0.7rem;padding:0.15rem 0.5rem;">
+              <span class="dot"></span> NM, USA Entity #7592810 Verified
+            </span>
+          </div>
         </div>
-        <div>
-          <span>Non-Custodial USDC Yield Pool · Monad &amp; Coinbase Base</span>
+        <div style="font-size:0.8rem; color:var(--muted); line-height:1.6;">
+          <span>$5.0M Senior Secured On-Chain Facility · NM UCC-1 Lien Perfected (NMSA § 55-9-501)</span><br>
+          <span>Coinbase Prime Custody Rails · Circle USDC Settlement · Monad &amp; Base Mainnet</span>
         </div>
-        <div style="color:var(--muted)">
-          <a href="#terminal" style="color:var(--accent)">Launch dApp</a> · 
-          <a href="https://github.com/AasavR/lasavo-website" target="_blank" rel="noopener">GitHub</a>
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+          <a href="#terminal" class="btn btn-sm btn-primary">Launch dApp</a>
+          <button class="btn btn-sm btn-outline" onclick="openDataRoomModal()" style="border-color:var(--accent);color:var(--accent)">
+            📊 Request Data Room ($5M)
+          </button>
+          <a href="https://github.com/AasavR/lasavo-website" target="_blank" rel="noopener" class="btn btn-sm btn-outline">GitHub</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <!-- INSTITUTIONAL DATA ROOM MODAL -->
+  <div class="modal-backdrop" id="dataroom-modal">
+    <div class="modal-card" style="max-width:520px;">
+      <button class="modal-close" onclick="closeDataRoomModal()">✕</button>
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;">
+        <span class="chip"><span class="dot"></span>100% Debt / 0% Equity</span>
+        <span class="chip">Reg D 506(c) / QIB</span>
+      </div>
+      <h3 style="font-family:var(--font-serif); font-size:1.5rem; margin-bottom:0.5rem;">Lasavo $5.0M Senior Debt Facility</h3>
+      <p style="color:var(--muted); font-size:0.85rem; line-height:1.5; margin-bottom:1.25rem;">
+        Virtual Data Room access for institutional credit desks, DeFi debt allocators, and asset managers.
+      </p>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem; margin-bottom:1.25rem; font-size:0.82rem; line-height:1.6;">
+        <div>• <strong>Senior Yield:</strong> SOFR + 450 bps floor + 85% net fees (14%–22% projected APY in USDC)</div>
+        <div>• <strong>First-Loss Protection:</strong> 7.5% ($375,000 USDC) funded by Lasavo LLC</div>
+        <div>• <strong>U.S. Legal Perfection:</strong> Perfected NM UCC-1 Financing Statement (NMSA § 55-9-501)</div>
+        <div>• <strong>Custody:</strong> Whitelisted Coinbase Prime institutional vaults</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-lbl-row"><span>Institutional Allocator Email</span></div>
+        <div class="custom-input-box" style="margin-bottom:0.75rem;">
+          <input type="email" id="dataroom-email" placeholder="partner@fund.com or credit@familyoffice.com">
+        </div>
+        <div class="custom-input-box">
+          <input type="text" id="dataroom-entity" placeholder="Fund / Institution Name (e.g. Wintermute, Re7, Family Office)">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; margin-top:0.5rem;" onclick="requestDataRoomAccess()">
+        Access 10-Slide Deck &amp; Term Sheet &rarr;
+      </button>
+      <div style="text-align:center; margin-top:0.75rem; font-size:0.75rem; color:var(--muted);">
+        Direct inquiries: <a href="mailto:help@lasavo.org" style="color:var(--accent)">help@lasavo.org</a>
+      </div>
+    </div>
+  </div>
 
   <!-- RIFT-STYLE PASSWORDLESS LOGIN MODAL -->
   <div class="modal-backdrop" id="login-modal">
@@ -963,6 +1011,25 @@
         updateUIBalances();
       }
     }, 1500);
+
+    // Data Room Modal Functions
+    function openDataRoomModal() {
+      document.getElementById('dataroom-modal').classList.add('open');
+    }
+    function closeDataRoomModal() {
+      document.getElementById('dataroom-modal').classList.remove('open');
+    }
+    function requestDataRoomAccess() {
+      const email = document.getElementById('dataroom-email').value.trim();
+      const entity = document.getElementById('dataroom-entity').value.trim();
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid institutional email address.');
+        return;
+      }
+      closeDataRoomModal();
+      showStatus(`Data Room request received for ${entity || email}. Check your inbox for the 10-slide deck & term sheet!`, 'success');
+      alert(`[Lasavo Virtual Data Room Access Granted]\\n\\nEntity: ${entity || 'Institutional Allocator'}\\nEmail: ${email}\\n\\nFacility: $5.0M Senior Secured On-Chain Facility (100% Debt)\\nAccessing: Lasavo_Monad_5M_Debt_Pitch_Deck.pdf + Draft Term Sheet + NM UCC-1 Specs.\\n\\nOur credit desk will reach out shortly via email!`);
+    }
 
     // Initialize session
     initUserSession();
