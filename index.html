@@ -911,8 +911,48 @@
       }
     }
 
-    function switchNetworkPrompt() {
-      alert('Lasavo multi-chain routing is active across Monad Testnet and Base Sepolia.');
+    const NETWORK_CONFIGS = [
+      { id: "baseMainnet", name: "Base Mainnet", chainId: 8453, hexId: "0x2105", type: "Mainnet", rpc: "https://mainnet.base.org" },
+      { id: "monadMainnet", name: "Monad Mainnet", chainId: 143, hexId: "0x8f", type: "Mainnet", rpc: "https://rpc.monad.xyz" },
+      { id: "baseSepolia", name: "Base Sepolia", chainId: 84532, hexId: "0x14a34", type: "Testnet", rpc: "https://sepolia.base.org" },
+      { id: "monadTestnet", name: "Monad Testnet", chainId: 10143, hexId: "0x279f", type: "Testnet", rpc: "https://testnet-rpc.monad.xyz" }
+    ];
+    let selectedNetwork = NETWORK_CONFIGS[0]; // Base Mainnet default
+
+    async function switchNetworkPrompt() {
+      const choice = prompt(
+        "Select Network to route USDC:\\n" +
+        "1. Base Mainnet (Chain ID 8453) [MAINNET]\\n" +
+        "2. Monad Mainnet (Chain ID 143) [MAINNET]\\n" +
+        "3. Base Sepolia (Chain ID 84532) [TESTNET]\\n" +
+        "4. Monad Testnet (Chain ID 10143) [TESTNET]\\n\\n" +
+        "Enter 1, 2, 3, or 4:",
+        "1"
+      );
+
+      let target = null;
+      if (choice === "1") target = NETWORK_CONFIGS[0];
+      else if (choice === "2") target = NETWORK_CONFIGS[1];
+      else if (choice === "3") target = NETWORK_CONFIGS[2];
+      else if (choice === "4") target = NETWORK_CONFIGS[3];
+
+      if (!target) return;
+
+      selectedNetwork = target;
+      document.getElementById('current-chain-name').textContent = target.name;
+      document.getElementById('dapp-network-label').textContent = `${target.name} (${target.chainId})`;
+
+      if (typeof window.ethereum !== 'undefined' && !currentUser?.email?.includes('guest')) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: target.hexId }],
+          });
+        } catch (err) {
+          console.warn('Network switch request:', err.message);
+        }
+      }
+      showStatus(`Switched active pool route to ${target.name} (${target.type})!`, 'success');
     }
 
     // Real-time USDC compounding ticker
