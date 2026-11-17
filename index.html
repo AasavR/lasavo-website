@@ -279,6 +279,93 @@
     footer { border-top: 1px solid var(--border); padding: 2.5rem 0; background: var(--surface); }
     .footer-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem 2rem; font-size: 0.85rem; }
 
+    /* AI ALPHA ENGINE (RIFT PROTOCOL EMULATION) */
+    .alpha-engine-box { display: flex; flex-direction: column; gap: 1.25rem; }
+    .flow-selector-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .flow-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .flow-card:hover { border-color: rgba(77,255,196,0.3); }
+    .flow-card.active {
+      border-color: var(--accent);
+      background: rgba(77,255,196,0.06);
+      box-shadow: 0 4px 20px rgba(77,255,196,0.12);
+    }
+    .flow-title { font-size: 0.82rem; font-weight: 700; color: var(--ink); display: flex; align-items: center; justify-content: center; gap: 0.35rem; }
+    .flow-apy { font-size: 1.05rem; font-weight: 700; color: var(--accent); margin: 0.25rem 0; font-family: var(--font-mono); }
+    .flow-badge { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .alpha-stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .alpha-stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .alpha-stat-lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .alpha-stat-val { font-size: 0.95rem; font-weight: 700; font-family: var(--font-mono); color: var(--ink); }
+    .alpha-stat-val.green { color: var(--accent); }
+    .alpha-stat-val.gold { color: var(--gold); }
+
+    .terminal-feed-card {
+      background: #04040a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 0.65rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .order-list { display: flex; flex-direction: column; gap: 0.45rem; max-height: 180px; overflow-y: auto; }
+    .order-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.6rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      gap: 0.5rem;
+      font-size: 0.72rem;
+    }
+    .order-row.short { border-left-color: #ff6b6b; }
+    .order-row.smart { border-left-color: #7c6fff; }
+    .tag-long { color: var(--accent); font-weight: 700; }
+    .tag-short { color: #ff6b6b; font-weight: 700; }
+    .tag-smart { color: #7c6fff; font-weight: 700; }
+    .pnl-pos { color: var(--accent); font-weight: 700; }
+    .pnl-neg { color: #ff6b6b; font-weight: 700; }
+
+    .ai-radar-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: rgba(124,111,255,0.08);
+      border: 1px solid rgba(124,111,255,0.25);
+      border-radius: 12px;
+      font-size: 0.78rem;
+    }
+
     /* RIFT-STYLE AUTH MODAL (OTP) */
     .modal-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(6,6,15,.88); backdrop-filter: blur(14px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .modal-backdrop.open { opacity: 1; pointer-events: all; }
@@ -382,13 +469,16 @@
           </div>
         </div>
 
-        <!-- TABS: INVEST / SEND TO EMAIL -->
+        <!-- TABS: INVEST / SEND TO EMAIL / AI ALPHA ENGINE -->
         <div class="terminal-tabs">
           <div class="term-tab active" id="tab-savings" onclick="switchTab('savings')">
             📈 Save &amp; Compound (14.8% APY)
           </div>
           <div class="term-tab" id="tab-transfer" onclick="switchTab('transfer')">
             ✉️ Send to Email ID
+          </div>
+          <div class="term-tab" id="tab-alpha" onclick="switchTab('alpha')">
+            ⚡ AI Alpha Engine
           </div>
         </div>
 
@@ -464,6 +554,96 @@
           <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="executeEmailTransfer()">
             Send USDC to Email &rarr;
           </button>
+        </div>
+
+        <!-- VIEW 3: AI ALPHA ENGINE (RIFT PROTOCOL EMULATION) -->
+        <div id="view-alpha" style="display:none;">
+          <div class="alpha-engine-box">
+            
+            <div style="font-size:0.78rem; color:var(--muted); line-height:1.5;">
+              Algorithmic execution engine emulating Rift Protocol. The AI automatically trades momentum breakouts (Long/Short), delta-neutral basis, and micro-spreads on BTC, ETH, and memecoins—funneling all profits in USDC directly into your savings pool.
+            </div>
+
+            <!-- FLOW SELECTOR -->
+            <div class="flow-selector-grid">
+              <div class="flow-card active" id="flow-card-alpha" onclick="selectFlow('alpha')">
+                <div class="flow-title">⚡ Alpha Flow</div>
+                <div class="flow-apy">18.5% – 34%</div>
+                <div class="flow-badge">Long / Short Momentum</div>
+              </div>
+              <div class="flow-card" id="flow-card-smart" onclick="selectFlow('smart')">
+                <div class="flow-title">🛡️ Smart Flow</div>
+                <div class="flow-apy">12.0% – 16.5%</div>
+                <div class="flow-badge">Delta-Neutral Basis</div>
+              </div>
+              <div class="flow-card" id="flow-card-micro" onclick="selectFlow('micro')">
+                <div class="flow-title">🎯 Micro Flow</div>
+                <div class="flow-apy">9.5% – 14.0%</div>
+                <div class="flow-badge">Precision Scalp</div>
+              </div>
+            </div>
+
+            <!-- METRIC CARDS -->
+            <div class="alpha-stats-row">
+              <div class="alpha-stat-item">
+                <span class="alpha-stat-lbl">AI Win Rate</span>
+                <span class="alpha-stat-val green" id="engine-win-rate">76.4%</span>
+              </div>
+              <div class="alpha-stat-item">
+                <span class="alpha-stat-lbl">Active Margin</span>
+                <span class="alpha-stat-val" id="engine-active-margin">$12,500</span>
+              </div>
+              <div class="alpha-stat-item">
+                <span class="alpha-stat-lbl">Alpha Distributed</span>
+                <span class="alpha-stat-val gold" id="engine-yield-pumped">+$1,842.60</span>
+              </div>
+              <div class="alpha-stat-item">
+                <span class="alpha-stat-lbl">Risk Guard</span>
+                <span class="alpha-stat-val green">1.5% Stop-Loss</span>
+              </div>
+            </div>
+
+            <!-- LIVE ORDER STREAM TERMINAL -->
+            <div class="terminal-feed-card">
+              <div class="feed-header">
+                <span>● LIVE EXECUTION STREAM (BTC, ETH, MEMES)</span>
+                <span id="terminal-live-time" style="color:var(--accent);">AI ACTIVE</span>
+              </div>
+              <div class="order-list" id="alpha-order-feed">
+                <!-- Dynamically populated orders -->
+              </div>
+            </div>
+
+            <!-- AI RADAR SENTIMENT -->
+            <div class="ai-radar-box">
+              <div>
+                <strong style="color:var(--ink);">AI Market Sentiment Radar:</strong>
+                <span style="color:var(--accent); margin-left:0.4rem;" id="sentiment-indicator">78 (Greed — Bullish Momentum Active)</span>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="triggerManualAlphaCycle()" id="btn-trigger-cycle">
+                ⚡ Trigger AI Cycle
+              </button>
+            </div>
+
+            <!-- ALLOCATION CONTROLS -->
+            <div class="input-group" style="margin-bottom:0.5rem;">
+              <div class="input-lbl-row">
+                <span>Deploy Strategy Margin from Balance</span>
+                <span>Active Target: <strong style="color:var(--accent)" id="active-target-apy">Alpha Flow (34.0% Max)</strong></span>
+              </div>
+              <div class="custom-input-box">
+                <input type="number" class="amount" id="alpha-deploy-amount" placeholder="25.00" step="5.00" min="1.00" value="25.00">
+                <span class="currency-pill">
+                  <span class="usdc-icon" style="width:16px;height:16px;font-size:0.6rem">$</span> USDC
+                </span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;" onclick="deployAlphaMargin()">
+              Activate AI Trading Margin &rarr;
+            </button>
+
+          </div>
         </div>
 
         <div class="status-banner" id="status-banner"></div>
@@ -729,12 +909,145 @@
     let generatedOtp = null;
     let pendingEmail = '';
 
-    // Switch between Savings & Email Transfer tabs
+    // Alpha Engine State (Emulating Rift Protocol Auto Engine)
+    let currentFlow = 'alpha';
+    let alphaPumpedYield = 1842.60;
+    let liveOrders = [
+      { asset: "BTC", dir: "LONG", flow: "Alpha Flow", lev: "3x", entry: "$91,420", mark: "$92,840", pnl: "+4.65%", pnlUSDC: "+$348.75", status: "PROFIT HARVESTED" },
+      { asset: "PEPE", dir: "SHORT", flow: "Alpha Flow", lev: "2x", entry: "$0.0000189", mark: "$0.0000181", pnl: "+4.23%", pnlUSDC: "+$105.80", status: "PROFIT HARVESTED" },
+      { asset: "ETH", dir: "DELTA_NEUTRAL", flow: "Smart Flow", lev: "1x", entry: "$3,180", mark: "$3,180", pnl: "18.4% APY", pnlUSDC: "+$42.50", status: "FUNDING PAID" },
+      { asset: "BRETT", dir: "LONG", flow: "Micro Flow", lev: "2x", entry: "$0.162", mark: "$0.166", pnl: "+2.47%", pnlUSDC: "+$49.40", status: "SETTLED" }
+    ];
+
+    // Switch between Savings, Email Transfer & AI Alpha Engine tabs
     function switchTab(tab) {
       document.getElementById('tab-savings').classList.toggle('active', tab === 'savings');
       document.getElementById('tab-transfer').classList.toggle('active', tab === 'transfer');
+      document.getElementById('tab-alpha').classList.toggle('active', tab === 'alpha');
+
       document.getElementById('view-savings').style.display = (tab === 'savings') ? 'block' : 'none';
       document.getElementById('view-transfer').style.display = (tab === 'transfer') ? 'block' : 'none';
+      document.getElementById('view-alpha').style.display = (tab === 'alpha') ? 'block' : 'none';
+
+      if (tab === 'alpha') {
+        renderOrderFeed();
+      }
+    }
+
+    function selectFlow(flow) {
+      currentFlow = flow;
+      document.getElementById('flow-card-alpha').classList.toggle('active', flow === 'alpha');
+      document.getElementById('flow-card-smart').classList.toggle('active', flow === 'smart');
+      document.getElementById('flow-card-micro').classList.toggle('active', flow === 'micro');
+
+      const targetLabel = document.getElementById('active-target-apy');
+      if (flow === 'alpha') {
+        targetLabel.textContent = 'Alpha Flow (34.0% Max APY)';
+      } else if (flow === 'smart') {
+        targetLabel.textContent = 'Smart Flow (16.5% Basis APY)';
+      } else {
+        targetLabel.textContent = 'Micro Flow (14.0% Scalp APY)';
+      }
+    }
+
+    function renderOrderFeed() {
+      const container = document.getElementById('alpha-order-feed');
+      if (!container) return;
+
+      container.innerHTML = liveOrders.map(order => {
+        const isShort = order.dir.includes('SHORT');
+        const isSmart = order.dir.includes('DELTA') || order.dir.includes('NEUTRAL');
+        const rowClass = isShort ? 'order-row short' : isSmart ? 'order-row smart' : 'order-row';
+        const tagClass = isShort ? 'tag-short' : isSmart ? 'tag-smart' : 'tag-long';
+
+        return `
+          <div class="${rowClass}">
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+              <span class="${tagClass}">[${order.dir}]</span>
+              <strong>${order.asset}/USDC</strong>
+              <span style="color:var(--muted)">(${order.flow} ${order.lev})</span>
+            </div>
+            <div>Entry: ${order.entry} → ${order.mark}</div>
+            <div class="pnl-pos">${order.pnl} (${order.pnlUSDC})</div>
+            <span style="color:var(--gold);font-size:0.65rem;">✓ ${order.status}</span>
+          </div>
+        `;
+      }).join('');
+
+      const yieldPumpEl = document.getElementById('engine-yield-pumped');
+      if (yieldPumpEl) yieldPumpEl.textContent = '+$' + alphaPumpedYield.toFixed(2);
+    }
+
+    function triggerManualAlphaCycle() {
+      const btn = document.getElementById('btn-trigger-cycle');
+      if (btn) {
+        btn.textContent = 'Scanning Market...';
+        btn.disabled = true;
+      }
+
+      const assets = [
+        { symbol: "BTC", price: 92450, move: "+3.8%", profit: 124.50 },
+        { symbol: "ETH", price: 3210, move: "+4.1%", profit: 86.20 },
+        { symbol: "PEPE", price: 0.0000192, move: "+6.4%", profit: 54.00 },
+        { symbol: "BRETT", price: 0.168, move: "+7.1%", profit: 48.30 },
+        { symbol: "DOGE", price: 0.392, move: "+5.2%", profit: 41.80 }
+      ];
+
+      const chosen = assets[Math.floor(Math.random() * assets.length)];
+      const isLong = Math.random() > 0.35;
+      const dir = isLong ? "LONG" : "SHORT";
+
+      setTimeout(() => {
+        const newOrder = {
+          asset: chosen.symbol,
+          dir: dir,
+          flow: currentFlow === 'alpha' ? "Alpha Flow" : currentFlow === 'smart' ? "Smart Flow" : "Micro Flow",
+          lev: currentFlow === 'alpha' ? "3x" : currentFlow === 'smart' ? "1x" : "2x",
+          entry: "$" + chosen.price.toLocaleString(),
+          mark: "$" + (isLong ? (chosen.price * 1.035).toFixed(4) : (chosen.price * 0.965).toFixed(4)),
+          pnl: chosen.move,
+          pnlUSDC: "+$" + chosen.profit.toFixed(2),
+          status: "PROFIT HARVESTED TO POOL"
+        };
+
+        liveOrders.unshift(newOrder);
+        if (liveOrders.length > 8) liveOrders.pop();
+
+        alphaPumpedYield += chosen.profit;
+        
+        // Also boost user active savings by a micro-dividend from the engine!
+        const userShare = parseFloat((chosen.profit * 0.05).toFixed(2));
+        simulatedSavings += userShare;
+        updateUIBalances();
+
+        renderOrderFeed();
+
+        if (btn) {
+          btn.textContent = '⚡ Trigger AI Cycle';
+          btn.disabled = false;
+        }
+
+        showStatus(`AI Alpha Engine executed ${dir} ${chosen.symbol}! Harvested +$${chosen.profit.toFixed(2)} USDC into pool (+$${userShare} added to your yield balance).`, 'success');
+      }, 900);
+    }
+
+    function deployAlphaMargin() {
+      const amountVal = parseFloat(document.getElementById('alpha-deploy-amount').value);
+      if (isNaN(amountVal) || amountVal <= 0) {
+        showStatus('Please enter a valid USDC margin amount > 0', 'error');
+        return;
+      }
+      if (guestUSDCBal < amountVal) {
+        showStatus('Insufficient available wallet USDC. Top up with +100 USDC Demo!', 'error');
+        return;
+      }
+
+      guestUSDCBal -= amountVal;
+      simulatedSavings += amountVal;
+      updateUIBalances();
+
+      showStatus(`Activated $${amountVal.toFixed(2)} USDC margin into ${currentFlow.toUpperCase()} FLOW! Compounding yield up to 34% APY.`, 'success');
+      triggerManualAlphaCycle();
     }
 
     // Modal controls
@@ -1033,6 +1346,7 @@
 
     // Initialize session
     initUserSession();
+    renderOrderFeed();
   </script>
 </body>
 </html>
